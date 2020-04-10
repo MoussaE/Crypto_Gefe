@@ -1,0 +1,12 @@
+ouvrir un terminal et tapez make ensuite le programme s'executera 
+si vous  souhaitez modifier la clé et la fonction de filtrage 
+vous devez changer le makefile ! 
+
+allez dans le dossier  excerice1 
+tapez "make" pour tester le code de la q1 
+et  "make  attack " pour executer la q5 
+
+
+Dans le dosser exercice2 
+tapez make pour tester la q2 pour modifier il es valeur il faut modifier le makefile 
+et pour la q4 make attack 
