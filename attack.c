@@ -36,41 +36,60 @@ char * XOR_TABLEAU (char * a , char * b )
    return retour; 
 }
 
-//retrouve les clee k0 k1 apartir du clair (ab) et du chiffre(cd)
-char ** retouver_cle(char * a , char* b , char *c , char *d )
+
+
+char ** retouver_cle(char * a , char* b , char *c , char *d,char * e , char* f , char *g , char *h)
 {
-	char * xl0 = conversion16en2(a); 
+	char * xl0 = conversion16en2(a);      
 	char * xr0 = conversion16en2(b); 
-	char * xl1 = conversion16en2(c);
-	char * xr1 = conversion16en2(d);
+	char * xl12 = conversion16en2(c);
+	char * xr12 = conversion16en2(d);
+	char * bl0 = conversion16en2(e); 
+	char * br0 = conversion16en2(f); 
+	char * bl12 = conversion16en2(g);
+	char * br12 = conversion16en2(h);
+	
+    char *b1  = malloc(sizeof (char) * 32 +1 ); 
+     char *b1r  = malloc(sizeof (char) * 32 +1 ); 
 
-
+    
 	char ** clee = malloc (sizeof(char *) *2 +1); 
 	for (int i = 0 ; i< 2 ; ++i ) clee[i] = malloc(sizeof(char) *32+1);
 
-       strcpy (clee[0] ,XOR_TABLEAU(xl1 , Fonction_de_rotation(XOR_TABLEAU(xr0,xl0))));
-       strcpy (clee[1] ,XOR_TABLEAU(clee[0] , Fonction_de_rotation(XOR_TABLEAU(xr0,xl0))));
+       strcpy (clee[0] ,XOR_TABLEAU(xl12, Fonction_de_rotation(XOR_TABLEAU(bl12,br12))));
+       strcpy (clee[1] ,XOR_TABLEAU(xr12 , Fonction_de_rotation(XOR_TABLEAU(xr12,xl12))));
+
+ 		 strcpy (b1,XOR_TABLEAU(bl0, Fonction_de_rotation(XOR_TABLEAU(bl0,br0))));
+   	     strcpy (b1r ,XOR_TABLEAU(clee[1], Fonction_de_rotation(XOR_TABLEAU(br0,b1))));
+
+   	     if ( !strcmp(b1 , xl0) && !strcmp(br0,b1r))
+   	     	printf ("\nk0 et k1 sont les bonnes clées \n"); 
+   	     else 
+   	     	printf("réessayez a nouveau avec de nouveau parametre dans le makefile\n");
 
       return clee ;  
 	 
 
 }
 
+
 int main (int argc , char ** argv)
 {
 
-   if(argc < 5 ) printf("erreur du nombre d'arguments \n" );
+
+	 if(argc < 9) printf("erreur du nombre d'arguments \n" );
       
     // exmple du DM  45019824 51023321 00D7818E 72AF039A
     // on retrouve bien   k0  : 01020304 k1  : 00D7818E
     // pour tester dautre exemples il faut modifier les valeur d'enntree dans la makefile
 
-   char ** clee = retouver_cle (argv[1],argv[2],argv[3],argv[4]);
+   char ** clee = retouver_cle (argv[1],argv[2],argv[3],argv[4],argv[5],argv[6],argv[7],argv[8]);
    printf (" k0  : %s\n",conversion2en16(clee[0]));
    printf (" k1  : %s\n",conversion2en16(clee[1]));
 
    for (int i = 0 ; i < 2 ; ++ i)  free(clee[i]); 
    free (clee);
+
 
 	return 0; 
 }
